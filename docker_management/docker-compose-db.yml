@@ -1,0 +1,17 @@
+version: '1'
+services:
+  postgresql:
+    container_name: management_db
+    image: postgres:11.6
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=adminpass
+      - POSTGRES_DB=managementdb
+    ports:
+      - 5431:5432
+  flyway:
+    container_name: flyway_management
+    image: flyway/flyway:latest
+    command: -url=jdbc:postgresql://localhost:5431/managementdb -user=admin -password=adminpass -connectRetries=60 migrate
+    volumes:
+      - ./resources/db/migrations:/flyway/sql
