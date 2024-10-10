@@ -7,12 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ClothingProductDto extends  ProductDto{
+@NoArgsConstructor
+public class ClothingProductDto extends ProductDto{
     private String season;
     private String brand;
-    private String name;
-    private Double price;
-    private Integer stock;
+
+    public ClothingProductDto(String name, Double price, Integer stock, String season, String brand) {
+        super(name, price, stock);
+        this.season = season;
+        this.brand = brand;
+    }
 }

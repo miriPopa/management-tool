@@ -1,6 +1,7 @@
 package com.store_management_tool.management_tool.service;
 
 import com.store_management_tool.management_tool.dto.keycloak.AuthorizationRequest;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class KeycloakService {
+    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(IngredientService.class);
     private final String TOKEN_URL = "http://localhost:8180/auth/realms/storeAppTool/protocol/openid-connect/token";
 
     public String getToken(AuthorizationRequest authorizationRequest){
@@ -45,8 +47,10 @@ public class KeycloakService {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
+            LOGGER.error("Token getting failed");
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            LOGGER.error("Token getting failed");
             throw new RuntimeException(e);
         }
 

@@ -1,8 +1,8 @@
 package com.store_management_tool.management_tool.security;
 
-import com.store_management_tool.management_tool.common.AuthorizationInfo;
-import com.store_management_tool.management_tool.common.Groups;
-import com.store_management_tool.management_tool.common.Roles;
+import com.store_management_tool.management_tool.common.user.AuthorizationInfo;
+import com.store_management_tool.management_tool.common.user.Groups;
+import com.store_management_tool.management_tool.common.user.Roles;
 import com.store_management_tool.management_tool.handler.exception.NoResourceFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package com.store_management_tool.management_tool.common;
+package com.store_management_tool.management_tool.common.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

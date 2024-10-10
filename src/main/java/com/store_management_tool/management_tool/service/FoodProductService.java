@@ -11,15 +11,16 @@ import com.store_management_tool.management_tool.handler.exception.NoResourceFou
 import com.store_management_tool.management_tool.handler.exception.NoValidProductException;
 import com.store_management_tool.management_tool.repository.FoodProductRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.store_management_tool.management_tool.common.ValidationManager.isAValidProduct;
 
 @Service
 public class FoodProductService {
+    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(FoodProductService.class);
+
     @Autowired
     private FoodProductRepository foodProductRepository;
 
@@ -28,6 +29,8 @@ public class FoodProductService {
 
     @Transactional
     public String addFoodProduct(FoodProductInfoDto foodProductInfoDto){
+        LOGGER.info("Food product adding is in progress");
+
         if (isAValidProduct(foodProductInfoDto)) {
 
             FoodProductDto foodProductDto = MapperUtil.MAPPER.foodProductRequestToFoodProductDto(foodProductInfoDto);
@@ -44,23 +47,36 @@ public class FoodProductService {
                     foodProduct.getFoodProductIngredients().add(foodProductIngredient);
             });
             foodProductRepository.save(foodProduct);
+            LOGGER.info("Food product adding with success");
 
             return "Product added successfully";
 
         } else {
+            LOGGER.error("Food product adding failed");
             throw new NoValidProductException();
         }
     }
 
 
     public FoodProductDto changeThePrice(ProductWithChangedPrice productWithChangedPrice){
-        FoodProduct foodProduct = foodProductRepository
-                .findByProductName(productWithChangedPrice.getName())
-                .orElseThrow(NoResourceFoundException::new);
+        LOGGER.info("Price changing is in progress");
 
-        foodProduct.getProduct().setPrice(productWithChangedPrice.getPrice());
-        foodProductRepository.save(foodProduct);
+        if (isAValidProduct(MapperUtil.MAPPER.productWithChangedPriceToProductDto(productWithChangedPrice))) {
 
-        return MapperUtil.MAPPER.foodProductToFoodProductDto(foodProduct);
+            FoodProduct foodProduct = foodProductRepository
+                    .findByProductName(productWithChangedPrice.getName())
+                    .orElseThrow(NoResourceFoundException::new);
+
+            foodProduct.getProduct().setPrice(productWithChangedPrice.getPrice());
+            FoodProduct savedProduct = foodProductRepository.save(foodProduct);
+
+            FoodProductDto foodProductDto = MapperUtil.MAPPER.foodProductToFoodProductDto(savedProduct);
+            LOGGER.info("Price changing with success");
+
+            return foodProductDto;
+        } else {
+            LOGGER.error("Price changing failed");
+            throw new NoValidProductException();
+        }
     }
 }

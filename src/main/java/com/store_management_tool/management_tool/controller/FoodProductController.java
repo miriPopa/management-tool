@@ -34,14 +34,14 @@ public class FoodProductController {
     }
 
     @PatchMapping("/update/food_product")
-    @PreAuthorize("@jwtInfo.isAuthorized(authentication, T(java.util.Arrays).asList(new com.store_management_tool.management_tool.common.AuthorizationInfo('ADMIN', 'group_admin'), new com.store_management_tool.management_tool.common.AuthorizationInfo('EDIT', 'group_user')))")
+    @PreAuthorize("@jwtInfo.isAuthorized(authentication, T(java.util.Arrays).asList(new com.store_management_tool.management_tool.common.user.AuthorizationInfo('ADMIN', 'group_admin'), new com.store_management_tool.management_tool.common.user.AuthorizationInfo('EDIT', 'group_user')))")
     public ResponseEntity<FoodProductDto> updateFoodProduct(
             @RequestBody ProductWithChangedPrice productWithChangedPrice) {
         return new ResponseEntity<>(foodProductService.changeThePrice(productWithChangedPrice), HttpStatus.OK);
     }
 
     @GetMapping("/search/food_product")
-    @PreAuthorize("@jwtInfo.isAuthorized(authentication, T(java.util.Arrays).asList(new com.store_management_tool.management_tool.common.AuthorizationInfo('ADMIN', 'group_admin'), new com.store_management_tool.management_tool.common.AuthorizationInfo('EDIT', 'group_user'), new com.store_management_tool.management_tool.common.AuthorizationInfo('VIEW', 'group_user')))")
+    @PreAuthorize("@jwtInfo.isAuthorized(authentication, T(java.util.Arrays).asList(new com.store_management_tool.management_tool.common.user.AuthorizationInfo('ADMIN', 'group_admin'), new com.store_management_tool.management_tool.common.user.AuthorizationInfo('EDIT', 'group_user'), new com.store_management_tool.management_tool.common.user.AuthorizationInfo('VIEW', 'group_user')))")
     public ResponseEntity<List<String>> searchFoodProductByIngredient(@RequestParam String ingredientName) {
         return new ResponseEntity<>(foodProductIngredientService.findByIngredient(ingredientName), HttpStatus.OK);
     }

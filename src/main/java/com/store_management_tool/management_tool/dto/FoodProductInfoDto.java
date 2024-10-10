@@ -12,5 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodProductInfoDto extends ProductDto{
-    List<IngredientDto > ingredientDtoList;
+    private List<IngredientDto > ingredientDtoList;
+
+    public FoodProductInfoDto(String name, Double price, Integer stock, List<IngredientDto> ingredientDtoList) {
+        super(name, price, stock);
+        this.ingredientDtoList = ingredientDtoList;
+    }
 }

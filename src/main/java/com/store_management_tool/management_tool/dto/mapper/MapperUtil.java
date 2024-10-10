@@ -1,9 +1,7 @@
 package com.store_management_tool.management_tool.dto.mapper;
 
-import com.store_management_tool.management_tool.dto.ClothingProductDto;
-import com.store_management_tool.management_tool.dto.FoodProductDto;
-import com.store_management_tool.management_tool.dto.FoodProductInfoDto;
-import com.store_management_tool.management_tool.dto.IngredientDto;
+import com.store_management_tool.management_tool.common.BrandList;
+import com.store_management_tool.management_tool.dto.*;
 import com.store_management_tool.management_tool.entity.ClothingProduct;
 import com.store_management_tool.management_tool.entity.FoodProduct;
 import com.store_management_tool.management_tool.entity.Ingredient;
@@ -23,6 +21,7 @@ public interface MapperUtil {
     @Mapping(target = "product.name", source = "name")
     @Mapping(target = "product.price", source = "price")
     @Mapping(target = "product.stock", source = "stock")
+    @Mapping(target = "brand", expression = "java(convertFromStringToEnum(clothingProductDto))")
     ClothingProduct clothingProductDtoToClothingProduct(ClothingProductDto clothingProductDto);
 
     @Mapping(target = "name", expression = "java(getProductName(clothingProduct.getProduct()))")
@@ -46,10 +45,16 @@ public interface MapperUtil {
 
     Ingredient ingredientDtoToIngredient(IngredientDto ingredient);
 
+    ProductDto productWithChangedPriceToProductDto(ProductWithChangedPrice product);
+
     default List<Ingredient> ingredientDtoToIngredientList(List<IngredientDto> songList) {
         return songList.stream()
                 .map(e -> ingredientDtoToIngredient(e))
                 .collect(Collectors.toList());
+    }
+
+    default BrandList convertFromStringToEnum(ClothingProductDto clothingProductDto){
+        return BrandList.valueOf(clothingProductDto.getBrand());
     }
     default String getProductName(Product product){
         return product.getName();

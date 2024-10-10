@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(UserService.class);
+    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private KeycloakService keycloakService;
     public String login(AuthorizationRequest authorizationRequest){
-        log.info("This is a sample INFO message");
+        LOGGER.info("User is logging");
 
         return keycloakService.getToken(authorizationRequest);
     }

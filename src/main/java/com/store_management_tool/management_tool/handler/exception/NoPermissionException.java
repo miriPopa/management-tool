@@ -1,6 +1,6 @@
 package com.store_management_tool.management_tool.handler.exception;
 
-import com.store_management_tool.management_tool.common.Errors;
+import com.store_management_tool.management_tool.common.exceptions.Errors;
 
 public class NoPermissionException extends AppException {
     public NoPermissionException() {
